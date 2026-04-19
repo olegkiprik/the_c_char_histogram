@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#if CHAR_BIT != 8
+#if CHAR_BIT > 12
 #error "Unsupported platform"
 #endif
 
@@ -24,15 +24,15 @@
 #define CH_MSG_FAILED_PRINT "Failed to print"
 #define CH_MSG_FAILED_FLUSH "Failed to flush"
 #define CH_MSG_FAILED_SYNC "Failed to sync"
-#define CH_NR_CHARACTERS 0x100
-#define CH_FACTOR 77
+#define CH_NR_CHARACTERS ((long)1 << CHAR_BIT)
+#define CH_FACTOR 76
 
 EFINE_DEF int ch_read_input_and_count_characters(long *histogram)
 {
 	int c_int;
 
 	while (EOF != (c_int = efine_fgetc_unlocked_no_eintr(stdin))) {
-		assert(c_int == (c_int & 0xFF));
+		assert(0 <= c_int && c_int < CH_NR_CHARACTERS);
 		++histogram[c_int];
 	}
 
@@ -86,12 +86,12 @@ EFINE_DEF int ch_print_histogram(const long *histogram, ptrdiff_t n)
 			continue;
 
 		if (isprint(i) && i != '\t') {
-			if (0 > fprintf(stdout, " %c ", (char)i)) {
+			if (0 > fprintf(stdout, "  %c ", (char)i)) {
 				perror("\n" CH_MSG_FAILED_PRINT);
 				return 1;
 			}
 		} else {
-			if (0 > fprintf(stdout, "%02x ", (int)i)) {
+			if (0 > fprintf(stdout, "%03x ", (int)i)) {
 				perror("\n" CH_MSG_FAILED_PRINT);
 				return 1;
 			}
