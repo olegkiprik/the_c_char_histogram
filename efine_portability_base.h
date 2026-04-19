@@ -49,12 +49,6 @@
 #define __restrict
 #endif
 
-#if defined(NDEBUG)
-#define EFINE_NDEBUG (1 == 1)
-#else
-#define EFINE_NDEBUG (0 == 1)
-#endif
-
 #if defined(EFINE_NOT_SUPPORTED_UNLOCKED_IO)
 
 #define clearerr_unlocked(stream) clearerr(stream)
@@ -104,4 +98,4 @@
 
 #endif /* EFINE_PORTABILITY_BASE_H_SENTRY */
 
-/* 2026-04-13 */
+/* 2026-04-19 */

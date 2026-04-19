@@ -30,6 +30,12 @@ EFINE_DEF int efine_fgetc_no_eintr(void *stream);
 /* FILE* stream */
 EFINE_DEF int efine_fputc_no_eintr(int c, void *stream);
 
+#if defined(NDEBUG)
+#define EFINE_NDEBUG (1 == 1)
+#else
+#define EFINE_NDEBUG (0 == 1)
+#endif
+
 #define EFINE_ASSUME(x)                                                                                                \
 	do {                                                                                                           \
 		if (EFINE_NDEBUG) {                                                                                    \
@@ -94,4 +100,4 @@ EFINE_DEF int efine_fputc_no_eintr(int c, void *stream)
 
 #endif /* EFINE_HELPERS_H_SENTRY */
 
-/* 2026-04-13 */
+/* 2026-04-19 */
