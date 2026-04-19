@@ -32,7 +32,7 @@ EFINE_DEF int ch_read_input_and_count_characters(long *histogram)
 	int c_int;
 
 	while (EOF != (c_int = efine_fgetc_unlocked_no_eintr(stdin))) {
-		assert(0 <= c_int && c_int < CH_NR_CHARACTERS);
+		assert(0 <= c_int && (long)c_int < CH_NR_CHARACTERS);
 		++histogram[c_int];
 	}
 
@@ -85,13 +85,13 @@ EFINE_DEF int ch_print_histogram(const long *histogram, ptrdiff_t n)
 		if (histogram[i] == 0)
 			continue;
 
-		if (isprint(i) && i != '\t') {
+		if (isprint((int)i) && (char)i != '\t') {
 			if (0 > fprintf(stdout, "  %c ", (char)i)) {
 				perror("\n" CH_MSG_FAILED_PRINT);
 				return 1;
 			}
 		} else {
-			if (0 > fprintf(stdout, "%03x ", (int)i)) {
+			if (0 > fprintf(stdout, "%03x ", (unsigned)i)) {
 				perror("\n" CH_MSG_FAILED_PRINT);
 				return 1;
 			}
@@ -130,7 +130,7 @@ EFINE_DEF int ch_run(void)
 	long histogram[CH_NR_CHARACTERS];
 	long hist_max;
 
-	ch_fill_long_with(0, histogram, CH_NR_CHARACTERS);
+	ch_fill_long_with(0, histogram, (ptrdiff_t)CH_NR_CHARACTERS);
 
 	if (0 != ch_read_input_and_count_characters(histogram))
 		return 1;
