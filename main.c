@@ -1,6 +1,8 @@
 /*
 	LLP64: 4GiB / CH_FACTOR of input data
 	LP64: no considerable limits
+
+	dependablec.org
 */
 #define EFINE_HELPERS_IMPLEMENTATION
 #include "efine_helpers.h"
