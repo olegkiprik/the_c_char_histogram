@@ -91,7 +91,7 @@
 #elif defined(__clang__) || defined(__GNUC__)
 #define EFINE_FLEXIBLE_ARRAY_MEMBER 0
 #define EFINE_FLEXIBLE_ARRAY_MEMBER_SUBTRACT 0
-#elif
+#else
 #define EFINE_FLEXIBLE_ARRAY_MEMBER 1
 #define EFINE_FLEXIBLE_ARRAY_MEMBER_SUBTRACT 1
 #endif
