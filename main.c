@@ -85,7 +85,7 @@ EFINE_DEF int ch_print_histogram(const long *histogram, ptrdiff_t n)
 		if (histogram[i] == 0)
 			continue;
 
-		if (isprint((int)i) && (char)i != '\t') {
+		if (isprint((int)i) != 0 && (char)i != '\t') {
 			if (0 > fprintf(stdout, "  %c ", (char)i)) {
 				perror("\n" CH_MSG_FAILED_PRINT);
 				return 1;
@@ -117,7 +117,7 @@ EFINE_DEF int ch_print_histogram(const long *histogram, ptrdiff_t n)
 	return 0;
 }
 
-EFINE_DEF void ch_fill_long_with(long val, long *p, ptrdiff_t n)
+EFINE_DEF void ch_fill_long_with(long val, /*@out@*/ long *p, ptrdiff_t n)
 {
 	ptrdiff_t i;
 
@@ -135,7 +135,7 @@ EFINE_DEF int ch_run(void)
 	if (0 != ch_read_input_and_count_characters(histogram))
 		return 1;
 
-	hist_max = ch_get_max(histogram, CH_NR_CHARACTERS);
+	hist_max = ch_get_max(histogram, (ptrdiff_t)CH_NR_CHARACTERS);
 
 	if (hist_max == 0) {
 		if (EOF == fputs("\nNo characters\n", stdout)) {
@@ -146,7 +146,7 @@ EFINE_DEF int ch_run(void)
 	}
 
 	ch_multiply_divide_all(histogram, CH_FACTOR, hist_max,
-			       CH_NR_CHARACTERS);
+			       (ptrdiff_t)CH_NR_CHARACTERS);
 
 	if (0 > fprintf(stdout,
 			"\n"
@@ -156,7 +156,7 @@ EFINE_DEF int ch_run(void)
 		return 1;
 	}
 
-	if (0 != ch_print_histogram(histogram, CH_NR_CHARACTERS))
+	if (0 != ch_print_histogram(histogram, (ptrdiff_t)CH_NR_CHARACTERS))
 		return 1;
 
 l_finish:
